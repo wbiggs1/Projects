@@ -168,6 +168,23 @@ def players_hand(deck,hand, dealers):
             break
     return hand
 
+def split_players_hand(deck,hand,dealers):
+    while hand.best_score() != 'BUST':
+        if hand.is_blackjack():
+            break
+        print("Would you like to hit or stand?")
+        print(">>> ", end='')
+        entry = input()
+        if entry.lower() == 'hit':
+            hand.twist(deck)
+            print_most(dealers,hand)
+        else:
+            dealers.cards[0].face_up()
+            print_most(dealers,hand)
+            print('')
+            break
+    return hand
+
 def evaluate_hands(hand,dealers_hand,stack,bet):
     print_all(dealers_hand,hand)
     if hand.is_blackjack():
@@ -223,9 +240,9 @@ def play_hand(deck):
                 players.move_cards(players2,1)
                 print('Splitting Hands:\n')
                 print('HAND 1\n')
-                players1 = players_hand(deck,players1,dealers)
+                players1 = split_players_hand(deck,players1,dealers)
                 print('HAND 2\n')
-                players2 = players_hand(deck,players2,dealers)
+                players2 = split_players_hand(deck,players2,dealers)
                 print("Final Hands")
                 bet = int(bet/2)
                 dealers_hand(deck,dealers)
